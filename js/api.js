@@ -15,7 +15,8 @@ api = {
 		}
 		,gmaps: {
 			query: "http://maps.google.com/maps?q="
-			,staticmap: "http://maps.googleapis.com/maps/api/staticmap?zoom=17&size={width}x{height}&sensor=false&center={address}&markers={address}"
+			,staticmap: "http://maps.googleapis.com/maps/api/staticmap?zoom=17&size={width}x{height}&sensor=false&center={address}&markers={address}&key="
+			,apiKey: "AIzaSyCmJ45zmFdmbe_j7QtgAXLUTNl1gRFzJl4"
 			,width: 260
 			,height: 200
 		}
@@ -86,6 +87,6 @@ api = {
 	}
 	
 	,getStaticMap: function(address) {
-		return api.config.gmaps.staticmap.replace(/{address}/g, encodeURIComponent(address)).replace("{width}", api.config.gmaps.width).replace("{height}", api.config.gmaps.height);
+		return api.config.gmaps.staticmap.replace(/{address}/g, encodeURIComponent(address)).replace("{width}", api.config.gmaps.width).replace("{height}", api.config.gmaps.height) + api.config.gmaps.apiKey;
 	}
 }
