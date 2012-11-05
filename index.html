@@ -156,7 +156,7 @@
 		<a href="<%= mapUrl %>"><%= pollingplace.POLLING_PL %><br>
 		<%= pollingplace.ADDRESS %></a><br><br>
 		
-		<a href="<%= mapUrl %>"><img src="<%= staticMap %>"></a>
+		<a href="<%= mapUrl %>"><img src="<%= staticMap %>" onerror="this.style.display='none'"></a>
 	</script>
 	
 	<script type="text/template" id="template-candidates">
