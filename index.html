@@ -192,15 +192,15 @@
 	
 	<script type="text/template" id="template-questions">
 		<h2>Ballot Questions</h2>
-		<ol>
         <% if(data.length) { %>
+		    <ol>
 		    <% for(i in data) { %>
 			    <li><%= data[i].question %></li>
 		    <% } %>
+    	    </ol>
         <% } else { %>
             No ballot questions
         <% } %>
-		</ol>
 	</script>
 	
 	<script type="text/template" id="template-error">
