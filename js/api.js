@@ -34,6 +34,7 @@ api = {
 		var url = api.config.ulrs311.base + api.config.ulrs311.location + encodeURIComponent(input);
 		$.ajax({
 			url: url
+            ,dataType: "jsonp"
 			,timeout: api.config.ulrs311.timeout
 			,cache: true
 			,error: errorCallback
@@ -57,7 +58,7 @@ api = {
 		var url = api.config.gisServer.base + api.config.gisServer.pollingPlaces + api.config.gisServer.defaultParams + encodeURIComponent(geometry);
 		$.ajax({
 			url: url
-			,dataType: "json"
+			,dataType: "jsonp"
 			,timeout: api.config.gisServer.timeout
 			,cache: true
 			,error: errorCallback
