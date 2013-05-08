@@ -191,11 +191,15 @@
 	</script>
 	
 	<script type="text/template" id="template-questions">
-		<h2>2012 General Election Ballot Questions</h2>
+		<h2>Ballot Questions</h2>
 		<ol>
-		<% for(i in data) { %>
-			<li><%= data[i].question %></li>
-		<% } %>
+        <% if(data.length) { %>
+		    <% for(i in data) { %>
+			    <li><%= data[i].question %></li>
+		    <% } %>
+        <% } else { %>
+            No ballot questions
+        <% } %>
 		</ol>
 	</script>
 	
