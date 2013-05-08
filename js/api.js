@@ -1,16 +1,16 @@
 var api = api || {};
 api = {
-	config: {
-		ulrs311: {
+    config: {
+        ulrs311: {
 			base: "http://services.phila.gov/ULRS311/Data/" // Ideally this should allow jsonp. ETA 2012-11-11
 			,location: "Location/"
 			,timeout: 20000
 			,minConfidence: 75
 		}
 		,gisServer: {
-			base: "http://gis.phila.gov/ArcGIS/rest/services/"
-			,pollingPlaces: "PhilaGov/PollingPlaces/MapServer/1/"
-			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=WARD_1%2CDIVISION_1%2CPOLLING_PL%2CADDRESS&f=pjson&geometry="
+			base: "http://staging-gis.phila.gov/ArcGIS/rest/services/"
+			,pollingPlaces: "PhilaGov/Polling_Places_May13/MapServer/1/"
+			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=WARD%2CDIV%2CPLACE%2CADDRESS&f=pjson&geometry="
 			,timeout: 20000
 		}
 		,gmaps: {
@@ -24,6 +24,9 @@ api = {
 			base: "https://www.googleapis.com/civicinfo/us_v1/"
 			,voterinfo: "voterinfo/4000/lookup?fields=contests%2CnormalizedInput%2Cstatus&key="
 			,apiKey: "AIzaSyCmJ45zmFdmbe_j7QtgAXLUTNl1gRFzJl4"
+		}
+		,gdocs: {
+			key: "0AlMaW-4cviLodFdMZGMwWnFUaUoxZjhOMHNQeVE5ckE"
 		}
 	}
 	
@@ -54,7 +57,7 @@ api = {
 		var url = api.config.gisServer.base + api.config.gisServer.pollingPlaces + api.config.gisServer.defaultParams + encodeURIComponent(geometry);
 		$.ajax({
 			url: url
-			,dataType: "jsonp"
+			,dataType: "json"
 			,timeout: api.config.gisServer.timeout
 			,cache: true
 			,error: errorCallback
@@ -88,5 +91,13 @@ api = {
 	
 	,getStaticMap: function(address) {
 		return api.config.gmaps.staticmap.replace(/{address}/g, encodeURIComponent(address)).replace("{width}", api.config.gmaps.width).replace("{height}", api.config.gmaps.height) + api.config.gmaps.apiKey;
+	}
+	
+	// This doesn't really need to be in api.js, but just for consistency's sake...
+	,getGoogleDoc: function(callback) {
+		Tabletop.init({
+			key: api.config.gdocs.key
+			,callback: callback
+		});
 	}
 }
