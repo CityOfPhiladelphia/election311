@@ -8,7 +8,7 @@ api = {
 			,minConfidence: 75
 		}
 		,gisServer: {
-			base: "http://staging-gis.phila.gov/ArcGIS/rest/services/"
+			base: "http://gis.phila.gov/ArcGIS/rest/services/"
 			,pollingPlaces: "PhilaGov/Polling_Places_May13/MapServer/1/"
 			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=WARD%2CDIV%2CPLACE%2CADDRESS&f=pjson&geometry="
 			,timeout: 20000
