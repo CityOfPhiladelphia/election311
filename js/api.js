@@ -9,9 +9,18 @@ api = {
 		}
 		,gisServer: {
 			base: "http://gis.phila.gov/ArcGIS/rest/services/"
-			,pollingPlaces: "PhilaGov/Polling_Places_May13/MapServer/1/"
-			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=WARD%2CDIV%2CPLACE%2CADDRESS&f=pjson&geometry="
+			,wardDivision: "PhilaGov/ServiceAreas/MapServer/23/"
+			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=NAME2_&f=pjson&geometry="
 			,timeout: 20000
+		}
+		,yql: {
+		    base: "http://query.yahooapis.com/v1/public/yql?format=json&q="
+		    ,proxy: "select * from html where url = "
+		}
+		,philavotes: {
+            base: "http://www.philadelphiavotes.com/"
+            ,pollingPlaces: "?option=com_pollingplaces&view=json"
+            ,timeout: 20000
 		}
 		,gmaps: {
 			query: "http://maps.google.com/maps?q="
@@ -53,9 +62,9 @@ api = {
 		})
 	}
 	
-	,getPollingPlace: function(x, y, successCallback, errorCallback) {
+	,getWardDivision: function(x, y, successCallback, errorCallback) {
 		var geometry = "{\"x\":" + x + ",\"y\":" + y + "}";
-		var url = api.config.gisServer.base + api.config.gisServer.pollingPlaces + api.config.gisServer.defaultParams + encodeURIComponent(geometry);
+		var url = api.config.gisServer.base + api.config.gisServer.wardDivision + api.config.gisServer.defaultParams + encodeURIComponent(geometry);
 		$.ajax({
 			url: url
 			,dataType: "jsonp"
@@ -69,7 +78,29 @@ api = {
 				}
 				successCallback(location);
 			}
-		})
+		});
+	}
+	
+	,getPollingPlace: function(ward, division, successCallback, errorCallback) {
+	    var subUrl = api.config.philavotes.base + api.config.philavotes.pollingPlaces + "&" + "&" + $.param({ward: ward, division: division})
+	        ,url = api.config.yql.base + encodeURIComponent(api.config.yql.proxy + "'" + subUrl + "'");
+	    $.ajax({
+			url: url
+			,dataType: "jsonp"
+			,timeout: api.config.philavotes.timeout
+			,cache: true
+			,error: errorCallback
+			,success: function(data) {
+				var location = null;
+				if(data.query !== undefined && data.query.results !== undefined && data.query.results.body !== undefined && data.query.results.body.p !== undefined) {
+                    var p = JSON.parse(data.query.results.body.p);
+				    if(p.features !== undefined && p.features.length) {
+					    location = p.features[0].attributes;
+				    }
+				}
+				successCallback(location);
+			}
+		});
 	}
 	
 	,getCandidates: function(input, successCallback, errorCallback) {
