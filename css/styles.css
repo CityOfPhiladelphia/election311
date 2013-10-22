@@ -1,9 +1,9 @@
-[data-role="content"] > h1,
+/*[data-role="content"] > h1,
 [data-role="content"] > h2,
 [data-role="content"] > h3,
 [data-role="content"] > h4 {
 	margin-top: 0;
-}
+}*/
 
 [data-role="header-options"] {
 	text-align: center;

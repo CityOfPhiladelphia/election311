@@ -153,19 +153,22 @@
 	</script>
 	
 	<script type="text/template" id="template-candidates">
-		<h2>Citywide Candidates</h2>
+		
+		<% $.each(data, function(jurisdiction, races) { %>
+		<h2><%= jurisdiction %> Races</h2>
 		
 		<ul data-role="listview">
-		<% $.each(data, function(key, val) { %>
+		    <% $.each(races, function(race, candidates) { %>
 			<li>
-				<span><%= key %></span>
+				<span><%= race %></span>
 				<ul>
-				<% for(i in val) {%>
-					<% var candidate = val[i]; %>
+				<% for(i in candidates) {%>
+					<% var candidate = candidates[i]; %>
 					<li>
 						<h3><%= candidate.name %></h3>
 						<p>
-						#<%= candidate.ballotnumber %> - <%= candidate.party %> Party<br><br>
+						<% if(candidate.ballotnumber) { %>#<%= candidate.ballotnumber %> - <% } %><% if(candidate.party) { %><%= candidate.party %> Party<% } %>
+						<% if(candidate.website || candidate.email || candidate.facebook || candidate.twitter || candidate.youtube) { %><br><br><% } %>
 						<% if(candidate.website) { %>
 							<a href="<%= candidate.website %>" target="_blank" title="Website" class="channel"><img src="icons/website.png"></a>
 						<% } %>
@@ -186,8 +189,9 @@
 				<% }; %>
 				</ul>
 			</li>
-		<% }); %>
+			<% }); %>
 		</ul>
+		<% }); %>
 	</script>
 	
 	<script type="text/template" id="template-questions">
