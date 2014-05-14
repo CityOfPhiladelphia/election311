@@ -9,8 +9,8 @@ api = {
 		}
 		,gisServer: {
 			base: "http://gis.phila.gov/ArcGIS/rest/services/"
-			,wardDivision: "PhilaGov/ServiceAreas/MapServer/23/"
-			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=NAME2_&f=pjson&geometry="
+			,wardDivision: "PhilaGov/ServiceAreas/MapServer/22/"
+			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=DIVISION_NUM&f=pjson&geometry="
 			,timeout: 20000
 		}
 		,yql: {
