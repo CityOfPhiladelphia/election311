@@ -13,14 +13,9 @@ api = {
 			,defaultParams: "query?geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=DIVISION_NUM&f=pjson&geometry="
 			,timeout: 20000
 		}
-		,yql: {
-		    base: "http://query.yahooapis.com/v1/public/yql?format=json&q="
-		    ,proxy: "select * from html where url = "
-		}
-		,philavotes: {
-            base: "http://www.philadelphiavotes.com/"
-            ,pollingPlaces: "?option=com_pollingplaces&view=json"
-            ,timeout: 20000
+		,pollingPlaces: {
+      base: "http://api.phila.gov/polling-places/v1/"
+      ,timeout: 20000
 		}
 		,gmaps: {
 			query: "http://maps.google.com/maps?q="
@@ -38,7 +33,7 @@ api = {
 			key: "0AlMaW-4cviLodFdMZGMwWnFUaUoxZjhOMHNQeVE5ckE"
 		}
 	}
-	
+
 	,geocode: function(input, successCallback, errorCallback) {
 		var url = api.config.ulrs311.base + api.config.ulrs311.location + encodeURIComponent(input);
 		$.ajax({
@@ -61,7 +56,7 @@ api = {
 			}
 		})
 	}
-	
+
 	,getWardDivision: function(x, y, successCallback, errorCallback) {
 		var geometry = "{\"x\":" + x + ",\"y\":" + y + "}";
 		var url = api.config.gisServer.base + api.config.gisServer.wardDivision + api.config.gisServer.defaultParams + encodeURIComponent(geometry);
@@ -80,29 +75,25 @@ api = {
 			}
 		});
 	}
-	
+
 	,getPollingPlace: function(ward, division, successCallback, errorCallback) {
-	    var subUrl = api.config.philavotes.base + api.config.philavotes.pollingPlaces + "&" + "&" + $.param({ward: ward, division: division})
-	        ,url = api.config.yql.base + encodeURIComponent(api.config.yql.proxy + "'" + subUrl + "'");
+      var url = api.config.pollingPlaces.base + "?" + $.param({ward: ward, division: division});
 	    $.ajax({
 			url: url
 			,dataType: "jsonp"
-			,timeout: api.config.philavotes.timeout
+			,timeout: api.config.pollingPlaces.timeout
 			,cache: true
 			,error: errorCallback
 			,success: function(data) {
 				var location = null;
-				if(data.query !== undefined && data.query.results !== undefined && data.query.results.body !== undefined && data.query.results.body.p !== undefined) {
-                    var p = JSON.parse(data.query.results.body.p);
-				    if(p.features !== undefined && p.features.length) {
-					    location = p.features[0].attributes;
-				    }
-				}
+		    if(data.features !== undefined && data.features.length) {
+			    location = data.features[0].attributes;
+		    }
 				successCallback(location);
 			}
 		});
 	}
-	
+
 	,getCandidates: function(input, successCallback, errorCallback) {
 		var url = api.config.civicinfo.base + api.config.civicinfo.voterinfo + api.config.civicinfo.apiKey;
 		var body = {address: input};
@@ -116,15 +107,15 @@ api = {
 			,success: successCallback
 		});
 	}
-	
+
 	,getMapUrl: function(address, width, height) {
 		return api.config.gmaps.query + encodeURIComponent(address);
 	}
-	
+
 	,getStaticMap: function(address) {
 		return api.config.gmaps.staticmap.replace(/{address}/g, encodeURIComponent(address)).replace("{width}", api.config.gmaps.width).replace("{height}", api.config.gmaps.height) + api.config.gmaps.apiKey;
 	}
-	
+
 	// This doesn't really need to be in api.js, but just for consistency's sake...
 	,getGoogleDoc: function(callback) {
 		Tabletop.init({
