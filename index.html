@@ -6,7 +6,7 @@
     <meta charset="utf-8">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.3.1/jquery.mobile.min.css">
 	<link rel="stylesheet" href="css/styles.css">
-	
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).bind("mobileinit", function() {$.mobile.page.prototype.options.addBackBtn = true;}); // Add back button to nested lists
@@ -118,11 +118,11 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/template" id="template-info">
 			<h2>Election Info</h2>
 			<p><%= data.top %></p>
-			
+
 			<% if(data.sections.length) { %>
 			<div data-role="collapsible-set">
 				<% for(i in data.sections) { %>
@@ -134,29 +134,29 @@
 			</div>
 			<% } %>
 	</script>
-	
+
 	<script type="text/template" id="template-pollingplace">
 		<h2>Where to Vote</h2>
-		
+
 		<p>Note: Polling places can change due to emergencies. For confirmation, call 215-686-1590</p>
-		
+
 		Your address:<br>
 		<a href="#search" data-role="button" data-icon="arrow-l" data-mini="true"><%= userAddress %></a>
-		
+
 		Vote at:<br>
 		<a href="<%= mapUrl %>"><%= pollingplace.location %><br>
 		<%= pollingplace.display_address %></a><br><br>
 
 		Ward <%= pollingplace.ward %>, Division <%= pollingplace.division %><br><br>
-		
+
 		<a href="<%= mapUrl %>"><img src="<%= staticMap %>" onerror="this.style.display='none'"></a>
 	</script>
-	
+
 	<script type="text/template" id="template-candidates">
-		
+
 		<% $.each(data, function(jurisdiction, races) { %>
 		<h2><%= jurisdiction %> Races</h2>
-		
+
 		<ul data-role="listview">
 		    <% $.each(races, function(race, candidates) { %>
 			<li>
@@ -193,7 +193,7 @@
 		</ul>
 		<% }); %>
 	</script>
-	
+
 	<script type="text/template" id="template-questions">
 		<h2>Ballot Questions</h2>
         <% if(data.length) { %>
@@ -206,17 +206,17 @@
             No ballot questions
         <% } %>
 	</script>
-	
+
 	<script type="text/template" id="template-error">
 		<h2>Error</h2>
-		<%= msg %><br>		
+		<%= msg %><br>
 		<% if(xhr && xhr.status !== undefined && xhr.statusText !== undefined) { %>
 			<small>(Error Code: <%= xhr.status %> <%= xhr.statusText %>)</small><br><br>
 		<% } %>
-		
+
 		Election Information:<br>
 		215-686-1590<br><br>
-		
+
 		<a href="#search" data-role="button" data-icon="arrow-l">Back</a>
 	</script>
 
